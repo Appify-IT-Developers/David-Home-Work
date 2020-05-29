@@ -12,3 +12,5 @@ Here are your tasks.
 4. When the user fills the details and presses enter, it should display in a table below along with other items that have been added before.
 5. Include a row in the table that calcluates and displays the total sales for the day.
 6. Include any other feature that will make the website more enjoyable for the user.
+
+**Pls Note**: _Create a new branch on your local repo and add all your commits there before pushing to the remote._
