@@ -19,7 +19,8 @@
     <div class="container">
             <form action="" class="my-5 mx-5">
                 <input type="text" name="item" id="drug-name" placeholder="Drug name">
-                <input type="text" name="price" id="drug-price" placeholder="cost">
+                <input type="text" name="item-id" id="drug-id" placeholder="aci90045">
+                <input type="text" name="price" id="drug-price" placeholder="Unit Price">
                 <input type="button" name="add-item" class="add-item" value="Add Item" >
 
             </form>
@@ -30,20 +31,29 @@
             <th>Select</th>
             <th>S/No.</th>
             <th>Drug name</th>
-            <th>Price</th>
+            <th>Drug ID</th>
+            <th>Unit Price</th>
+            <th>Total Qautity</th>
             <th>Payment Status</th>
         </tr>
     </thead>
     <tbody>
-        <tr class="text-muted">
-            <td><input type="checkbox" checked="checked"></td>
+        <tr>
+            <td><input type="checkbox" checked="checked" ></td>
             <td>00</td>
             <td>Acetaminophen</td>
+            <td>aci90045</td>
             <td>100 <span class="textmuted">Naira</span></td>
+            <td>50</td>
             <td>Paid</td>
         </tr>
     </tbody>
-        </table>
+    <tfoot>
+          <td colspan="6">Total Sales</td>
+          <td id="total"> 0<span class="text-muted justify-content-right"> Naira</span></td>
+    </tfoot>
+          </table>
+        
         <input type="button" name="delete-row" id="delete-item" value="Delete Item">
 
 </div>
@@ -59,16 +69,35 @@
 $(document).ready(function(){
     $(".add-item").click(function(){
         var name = $("#drug-name").val();
+        var drugId = $('#drug-id').val();
         var price = $("#drug-price").val();
-        var no = 01; 
+        var quantity = "";
+        var TotalPrice =0;
+
+        var no = $('table tbody td[name="record"]').length; 
+        console.log(no);
         var status ="";
-        var dom = "<tr><td><input type='checkbox' name='record'></td><td>" + no + "</td><td>" +name +"</td><td>" + price +"</td><td>" + status+ "</td></tr>"
+        var dom = "<tr><td><input type='checkbox' name='record'></td><td>" + no + "</td><td>" +name +"</td><td>" +drugId +"</td><td>" + price +"</td><td>" +quantity +"</td><td>" + status+ "</td></tr>"
 
         $("table tbody").append(dom);
-       
-    })
+
+
+        // Calculate the total anonymously 
+        function Calculate (){
+            // "use strict"
+           var  Total = $('input[name="price"]').val();
+     TotalPrice =parseInt(TotalPrice) + parseInt(Total)
+     var overall  = TotalPrice;
+    $('#total').html(overall);
+   
+    }
+    Calculate();
+    
+
 })
-// Script to delete a item row
+
+
+    // Script to delete a item row
 $("#delete-item").click(function(){
     $("table tbody").find('input[name="record"]').each(function(){
         if($(this).is(":checked")){
@@ -76,6 +105,13 @@ $("#delete-item").click(function(){
         }
     });
 })
+
+
+
+})
+
+
+
     </script>
 </body>
 </html>
