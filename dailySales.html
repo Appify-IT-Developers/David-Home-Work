@@ -19,8 +19,9 @@
     <div class="container">
             <form action="" class="my-5 mx-5">
                 <input type="text" name="item" id="drug-name" placeholder="Drug name">
-                <input type="text" name="item-id" id="drug-id" placeholder="aci90045">
+                <input type="text" name="item-id" id="drug-id" placeholder="Drug ID">
                 <input type="text" name="price" id="drug-price" placeholder="Unit Price">
+                <input type="text" name="quantity" id="drug-qty" placeholder="Quantity">
                 <input type="button" name="add-item" class="add-item" value="Add Item" >
 
             </form>
@@ -33,24 +34,17 @@
             <th>Drug name</th>
             <th>Drug ID</th>
             <th>Unit Price</th>
-            <th>Total Qautity</th>
-            <th>Payment Status</th>
+            <th>Total Quantity</th>
+            <th>Total Sales</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td><input type="checkbox" checked="checked" ></td>
-            <td>00</td>
-            <td>Acetaminophen</td>
-            <td>aci90045</td>
-            <td>100 <span class="textmuted">Naira</span></td>
-            <td>50</td>
-            <td>Paid</td>
-        </tr>
+        
     </tbody>
     <tfoot>
-          <td colspan="6">Total Sales</td>
-          <td id="total"> 0<span class="text-muted justify-content-right"> Naira</span></td>
+          <td colspan="5">Total Sales</td>
+          <td id="total-qty"></td>
+          <td id="Sum-Total"> 0<span class="text-muted justify-content-right"> Naira</span></td>
     </tfoot>
           </table>
         
@@ -71,45 +65,45 @@ $(document).ready(function(){
         var name = $("#drug-name").val();
         var drugId = $('#drug-id').val();
         var price = $("#drug-price").val();
-        var quantity = "";
+        var quantity =$('#drug-qty').val();
         var TotalPrice =0;
+        var no = 1; 
+        TotalPrice = parseInt(price) * parseInt(quantity)
 
-        var no = $('table tbody td[name="record"]').length; 
-        console.log(no);
-        var status ="";
-        var dom = "<tr><td><input type='checkbox' name='record'></td><td>" + no + "</td><td>" +name +"</td><td>" +drugId +"</td><td>" + price +"</td><td>" +quantity +"</td><td>" + status+ "</td></tr>"
+        // Script for increamenting the Serial Number
+         $("table tbody tr ").find($('.Serial-num')).each(function(){
+                no +=1;
+        })
+        
+        // Script for adding Row Dynamically
+            var dom = "<tr><td><input type='checkbox' name='record'></td><td class='Serial-num'>" + no + "</td><td>" +name +"</td><td>" +drugId +"</td><td>" + price +"</td><td>" + quantity +"</td><td class='SumTotal' name='TotalP'>"+ Math.round(TotalPrice)+"</td></tr>"
+            $("table tbody").append(dom);
+      
+                // Script for the grand Total
+                var ShowSum =$('#Sum-Total').text();
 
-        $("table tbody").append(dom);
-
-
-        // Calculate the total anonymously 
-        function Calculate (){
-            // "use strict"
-           var  Total = $('input[name="price"]').val();
-     TotalPrice =parseInt(TotalPrice) + parseInt(Total)
-     var overall  = TotalPrice;
-    $('#total').html(overall);
-   
-    }
-    Calculate();
-    
-
-})
+                ShowSum = parseInt(ShowSum) + parseInt(TotalPrice);
+                $('#Sum-Total').html(ShowSum ); 
+        })
 
 
     // Script to delete a item row
-$("#delete-item").click(function(){
-    $("table tbody").find('input[name="record"]').each(function(){
-        if($(this).is(":checked")){
-            $(this).parents("tr").remove();
-        }
-    });
+            $("#delete-item").click(function(){
+                $("table tbody").find('input[name="record"]').each(function(){
+                    if($(this).is(":checked")){
+                        $(this).parents("tr").remove();
+                       var com = $("table tbody tr").find('td[name="TotalP"]').text()
+                        console.log(com)
+                        
+
+                    }
+                });
+            })
+        
+                
+
+
 })
-
-
-
-})
-
 
 
     </script>
